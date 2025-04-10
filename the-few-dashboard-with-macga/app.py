@@ -1,32 +1,50 @@
-import streamlit as st
-import pandas as pd
+import random
 
-# Load data
-weekly_data = pd.read_csv("weekly_submitted.csv")
-activity_data = pd.read_csv("agent_activity.csv")
-ytd_data = pd.read_csv("ytd_data.csv")
+std_messages = [
+    "✅ MACGA! Make America's Health Insurance Great Again — one clean case at a time.",
+    "🦅 Approved faster than a bald eagle clears TSA. Welcome to Tariff-Free coverage.",
+    "🎆 Risk? Low. Freedom? High. You've been liberty-approved.",
+    "🚀 Cleared for takeoff — this app’s more American than apple pie."
+]
 
-st.set_page_config(page_title="THE FEW Dashboard", layout="wide")
-st.title("🔥 THE FEW | Sales Performance Dashboard")
+ic_messages = [
+    "⚠️ This one’s heading up the chain of command. Barb in underwriting’s on it.",
+    "📡 Liberty Line 1: requesting second review. It’s not a no, it’s a stand-by.",
+    "🤔 This one needs a closer look. Let the freedom-fueled reviewers decide.",
+    "🧠 Uncle Sam’s underwriters are thinking it over — stay tuned."
+]
 
-# Weekly Leaderboard
-st.subheader("🏆 Weekly Submitted AV Leaderboard")
-weekly_data = weekly_data.sort_values(by="Submitted_AV", ascending=False).reset_index(drop=True)
-weekly_data["% to Goal ($20K)"] = (weekly_data["Submitted_AV"] / 20000 * 100).round(1)
-st.dataframe(weekly_data.style.highlight_max(subset="Submitted_AV", color="lightgreen"), use_container_width=True)
+pp_messages = [
+    "🕒 Temporarily grounded. Even Lincoln had to wait for reinforcements.",
+    "🔁 Postponed — not denied. Recheck when the storm clears.",
+    "🧯 Hold up, patriot — this one needs a little more time in the freedom fryer.",
+    "🚧 Liberty delay — check back after stabilization."
+]
 
-# Race Track View
-st.subheader("🏁 Race to $20K - Agent Goal Progress")
-st.bar_chart(weekly_data.set_index("Agent")["% to Goal ($20K)"])
+d_messages = [
+    "⛔ Declined harder than British tea in Boston Harbor.",
+    "🚫 Too spicy for freedom. This one’s a no-go, champ.",
+    "💥 Declined. Not even an eagle endorsement could save it.",
+    "🔒 Risk denied. Tariffs we can handle — this risk? Nope."
+]
 
-# Close Rate and Talk Time
-st.subheader("📞 Agent Activity & Close Rate")
-st.dataframe(activity_data.sort_values(by="Close_Rate_%", ascending=False).reset_index(drop=True), use_container_width=True)
+if st.button("🔥 FIRE IT OFF!"):
+    decision = "STD"
+    if "depression" in conditions.lower() and age < 25:
+        decision = "IC"
+    if "bipolar" in conditions.lower() or "cancer" in conditions.lower():
+        decision = "D"
+    if "pending" in notes.lower() or "recent hospital" in notes.lower():
+        decision = "PP"
 
-# YTD Performance
-st.subheader("📈 Year-to-Date AV + Taken Rate")
-ytd_data["Taken_Rate_%"] = (ytd_data["YTD_Taken_Rate"] * 100).round(1)
-st.dataframe(ytd_data[["Agent", "YTD_Issued", "Taken_Rate_%"]].sort_values(by="YTD_Issued", ascending=False), use_container_width=True)
+    st.markdown("---")
+    st.subheader(f"🧾 Underwriting Decision: **{decision}**")
 
-st.caption("Built for THE FEW ⚔️ Few Will Hunt")
-
+    if decision == "STD":
+        st.success(random.choice(std_messages))
+    elif decision == "IC":
+        st.warning(random.choice(ic_messages))
+    elif decision == "PP":
+        st.info(random.choice(pp_messages))
+    elif decision == "D":
+        st.error(random.choice(d_messages))
